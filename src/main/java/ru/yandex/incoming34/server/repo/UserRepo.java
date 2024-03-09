@@ -2,7 +2,7 @@ package ru.yandex.incoming34.server.repo;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.yandex.incoming34.server.structures.dto.User;
+import ru.yandex.incoming34.server.structures.entity.User;
 
 import java.util.Optional;
 

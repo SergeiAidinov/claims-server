@@ -7,7 +7,7 @@ import ru.yandex.incoming34.server.repo.UserRepo;
 import ru.yandex.incoming34.server.structures.JwtAuthentication;
 import ru.yandex.incoming34.server.structures.dto.JwtRequest;
 import ru.yandex.incoming34.server.structures.dto.JwtResponse;
-import ru.yandex.incoming34.server.structures.dto.User;
+import ru.yandex.incoming34.server.structures.entity.User;
 import ru.yandex.incoming34.server.exception.AuthException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UserService userService;
     private final Map<String, String> refreshStorage = new HashMap<>();
     private final JwtProvider jwtProvider;
     private final UserRepo userRepo;
@@ -43,7 +42,7 @@ public class AuthService {
             final String login = claims.getSubject();
             final String saveRefreshToken = refreshStorage.get(login);
             if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-                final User user = userService.getByLogin(login)
+                final User user = userRepo.findByLogin(login)
                         .orElseThrow(() -> new AuthException("Пользователь не найден"));
                 final String accessToken = jwtProvider.generateAccessToken(user);
                 return new JwtResponse(accessToken, null);
@@ -58,7 +57,7 @@ public class AuthService {
             final String login = claims.getSubject();
             final String saveRefreshToken = refreshStorage.get(login);
             if (saveRefreshToken != null && saveRefreshToken.equals(refreshToken)) {
-                final User user = userService.getByLogin(login)
+                final User user = userRepo.findByLogin(login)
                         .orElseThrow(() -> new AuthException("Пользователь не найден"));
                 final String accessToken = jwtProvider.generateAccessToken(user);
                 final String newRefreshToken = jwtProvider.generateRefreshToken(user);

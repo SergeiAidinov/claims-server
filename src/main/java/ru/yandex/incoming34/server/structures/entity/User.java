@@ -1,13 +1,11 @@
-package ru.yandex.incoming34.server.structures.dto;
+package ru.yandex.incoming34.server.structures.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.yandex.incoming34.server.structures.Role;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Getter
 @Setter
