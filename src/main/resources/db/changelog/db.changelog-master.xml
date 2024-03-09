@@ -11,9 +11,7 @@
     <include
             file="db/changelog/createTables/create-table-clients.xml"/>
     <include
-            file="/db/changelog/createTables/create-table-phone_numbers.xml"/>
-    <include
-            file="db/changelog/createTables/create-table-emails.xml"/>
-    <include
-            file="/db/changelog/insertData/insert-data.xml"/>
+            file="/db/changelog/createTables/create-table-tickets.xml"/>
+    <!--<include
+            file="/db/changelog/insertData/insert-data.xml"/>-->
 </databaseChangeLog>
