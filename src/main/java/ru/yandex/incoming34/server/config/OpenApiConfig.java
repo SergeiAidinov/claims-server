@@ -15,9 +15,9 @@ import io.swagger.v3.oas.models.info.Info;
 import org.springframework.context.annotation.ComponentScan;
 import springfox.documentation.oas.annotations.EnableOpenApi;
 
-@SpringBootConfiguration
-@EnableOpenApi
-@ComponentScan(basePackageClasses = { ru.yandex.incoming34.server.controller.Controller.class })
+//@SpringBootConfiguration
+//@EnableOpenApi
+//@ComponentScan(basePackageClasses = { ru.yandex.incoming34.server.controller.Controller.class })
 public class OpenApiConfig {
 
     @Bean
