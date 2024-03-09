@@ -3,6 +3,7 @@ package ru.yandex.incoming34.server.service;
 import io.jsonwebtoken.Claims;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import ru.yandex.incoming34.server.repo.UserRepo;
 import ru.yandex.incoming34.server.structures.JwtAuthentication;
 import ru.yandex.incoming34.server.structures.dto.JwtRequest;
 import ru.yandex.incoming34.server.structures.dto.JwtResponse;
@@ -21,9 +22,10 @@ public class AuthService {
     private final UserService userService;
     private final Map<String, String> refreshStorage = new HashMap<>();
     private final JwtProvider jwtProvider;
+    private final UserRepo userRepo;
 
     public JwtResponse login(@NonNull JwtRequest authRequest) {
-        final User user = userService.getByLogin(authRequest.getLogin())
+        final User user = userRepo.findByLogin(authRequest.getLogin())
                 .orElseThrow(() -> new AuthException("Пользователь не найден"));
         if (user.getPassword().equals(authRequest.getPassword())) {
             final String accessToken = jwtProvider.generateAccessToken(user);

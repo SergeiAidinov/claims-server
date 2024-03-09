@@ -1,5 +1,6 @@
 package ru.yandex.incoming34.server.controller;
 
+import ru.yandex.incoming34.server.repo.UserRepo;
 import ru.yandex.incoming34.server.structures.dto.JwtResponse;
 import ru.yandex.incoming34.server.structures.dto.RefreshJwtRequest;
 import ru.yandex.incoming34.server.service.AuthService;
