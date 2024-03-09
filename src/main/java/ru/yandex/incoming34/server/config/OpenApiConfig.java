@@ -1,52 +1,53 @@
 package ru.yandex.incoming34.server.config;
 
-import java.io.File;
-import java.util.Objects;
-
-import org.springframework.boot.SpringBootConfiguration;
-import org.springframework.context.annotation.Bean;
-
 import com.fasterxml.jackson.databind.jsonschema.JsonSchema;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import springfox.documentation.builders.PathSelectors;
+import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.service.ApiInfo;
+import springfox.documentation.service.Contact;
+import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.web.plugins.Docket;
 
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.oas.models.info.Contact;
-import io.swagger.v3.oas.models.info.Info;
-import org.springframework.context.annotation.ComponentScan;
-import springfox.documentation.oas.annotations.EnableOpenApi;
+import java.io.File;
+import java.util.Collections;
+import java.util.Objects;
 
-//@SpringBootConfiguration
-//@EnableOpenApi
-//@ComponentScan(basePackageClasses = { ru.yandex.incoming34.server.controller.Controller.class })
+@Configuration
 public class OpenApiConfig {
 
     @Bean
-    OpenAPI customOpenApi() {
-        OpenAPI openAPI = new OpenAPI();
-        openAPI.setInfo(info());
-        return openAPI;
+    public Docket api() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage("ru.yandex.incoming34"))
+                .paths(PathSelectors.any())
+                .build();
     }
 
     @Bean
-    Info info() {
-        return new Info().title("Приложение для запомнинаия спряжения неправильных глаголов французского языка")
-                .description("Pet project").version(componentVersion()).contact(contact());
+    ApiInfo apiInfo() {
+        return new ApiInfo(
+                "Swagger REST API для тестового задания",
+                "Тествое задание",
+                componentVersion(),
+                null,
+                new Contact("Sergei Aidinov", null, "incoming34@yandex.ru"),
+                null, null, Collections.emptyList()
+        );
     }
 
-    @Bean
-    Contact contact() {
-        return new Contact().email("incoming34@yandex.ru").name("Sergei Aidinov");
-    }
-
-    @SuppressWarnings("deprecation")
     private String componentVersion() {
-        String propertiesFileName = "pom.xml";
-        String componentVersion = "Версия не указана";
+        final String propertiesFileName = "pom.xml";
+        String componentVersion = "Version is not specified";
         File file = new File(propertiesFileName);
-        XmlMapper xmlMapper = new XmlMapper();
+        final XmlMapper xmlMapper = new XmlMapper();
         try {
-            JsonSchema jsonSchema = xmlMapper.generateJsonSchema(String.class);
-            JsonSchema json = xmlMapper.readValue(file, jsonSchema.getClass());
+            final JsonSchema jsonSchema = xmlMapper.generateJsonSchema(String.class);
+            final JsonSchema json = xmlMapper.readValue(file, jsonSchema.getClass());
             componentVersion = Objects.nonNull(json.getSchemaNode().get("version"))
                     ? String.valueOf(json.getSchemaNode().get("version")).replaceAll("\"", "")
                     : componentVersion;
@@ -55,5 +56,4 @@ public class OpenApiConfig {
         }
         return componentVersion;
     }
-
 }
