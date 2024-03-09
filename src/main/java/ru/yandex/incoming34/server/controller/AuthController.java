@@ -1,10 +1,10 @@
 package ru.yandex.incoming34.server.controller;
 
-import ru.yandex.incoming34.server.domain.JwtResponse;
-import ru.yandex.incoming34.server.domain.RefreshJwtRequest;
+import ru.yandex.incoming34.server.structures.dto.JwtResponse;
+import ru.yandex.incoming34.server.structures.dto.RefreshJwtRequest;
 import ru.yandex.incoming34.server.service.AuthService;
 import lombok.RequiredArgsConstructor;
-import ru.yandex.incoming34.server.domain.JwtRequest;
+import ru.yandex.incoming34.server.structures.dto.JwtRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

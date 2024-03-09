@@ -1,4 +1,4 @@
-package ru.yandex.incoming34.server.domain;
+package ru.yandex.incoming34.server.structures;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

@@ -5,7 +5,7 @@ import ru.yandex.incoming34.server.service.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.yandex.incoming34.server.domain.JwtAuthentication;
+import ru.yandex.incoming34.server.structures.JwtAuthentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;

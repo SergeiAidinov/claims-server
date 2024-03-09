@@ -1,4 +1,4 @@
-package ru.yandex.incoming34.server.domain;
+package ru.yandex.incoming34.server.structures.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

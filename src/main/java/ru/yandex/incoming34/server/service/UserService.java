@@ -2,8 +2,8 @@ package ru.yandex.incoming34.server.service;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import ru.yandex.incoming34.server.domain.Role;
-import ru.yandex.incoming34.server.domain.User;
+import ru.yandex.incoming34.server.structures.Role;
+import ru.yandex.incoming34.server.structures.dto.User;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;

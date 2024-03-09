@@ -3,8 +3,8 @@ package ru.yandex.incoming34.server.service;
 import io.jsonwebtoken.Claims;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import ru.yandex.incoming34.server.domain.JwtAuthentication;
-import ru.yandex.incoming34.server.domain.Role;
+import ru.yandex.incoming34.server.structures.JwtAuthentication;
+import ru.yandex.incoming34.server.structures.Role;
 
 import java.util.List;
 import java.util.Set;

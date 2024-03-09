@@ -2,7 +2,7 @@ package ru.yandex.incoming34.server.controller;
 
 import ru.yandex.incoming34.server.service.AuthService;
 import lombok.RequiredArgsConstructor;
-import ru.yandex.incoming34.server.domain.JwtAuthentication;
+import ru.yandex.incoming34.server.structures.JwtAuthentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,9 +1,10 @@
-package ru.yandex.incoming34.server.domain;
+package ru.yandex.incoming34.server.structures.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.yandex.incoming34.server.structures.Role;
 
 import java.util.Set;
 
