@@ -28,4 +28,15 @@ public class UserController {
         ticketRepo.save(ticket);
         return ResponseEntity.ok("Created ticket Draft" + authInfo.getPrincipal() + "!");
     }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @PostMapping("/newTicket")
+    public ResponseEntity<String> fileTicket(Long ticketId) {
+        System.out.println();
+        final JwtAuthentication authInfo = authService.getAuthInfo();
+        //Ticket ticket = new Ticket(authInfo.getClientId(), ticketDraftText);
+        ticketRepo.fileTicket(ticketId);
+        return ResponseEntity.ok("Filed ticket " + ticketId);
+    }
+
 }
