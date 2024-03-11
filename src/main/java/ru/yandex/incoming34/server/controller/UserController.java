@@ -5,16 +5,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.yandex.incoming34.server.repo.TicketRepo;
 import ru.yandex.incoming34.server.service.AuthService;
 import ru.yandex.incoming34.server.structures.JwtAuthentication;
 import ru.yandex.incoming34.server.structures.SortingOrder;
+import ru.yandex.incoming34.server.structures.TicketStatus;
 import ru.yandex.incoming34.server.structures.entity.Ticket;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/user")
@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('USER')")
-    @PostMapping("/newTicket")
+    @PutMapping("/newTicket")
     public ResponseEntity<String> fileTicket(Long ticketId) {
         System.out.println();
         final JwtAuthentication authInfo = authService.getAuthInfo();
@@ -45,7 +45,7 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('USER')")
-    @PostMapping("/allTickets")
+    @GetMapping("/allTickets")
     public List<Ticket> viewTickets(Integer page, SortingOrder sortingOrder){
         final JwtAuthentication authInfo = authService.getAuthInfo();
         Pageable pageable = PageRequest.of(page, itemsPerPage);
@@ -53,6 +53,22 @@ public class UserController {
             case ASCENDING -> ticketRepo.findAllByClientIdOrderByCreationDateAsc(authInfo.getClientId(), pageable);
             case DESCENDING -> ticketRepo.findAllByClientIdOrderByCreationDateDesc(authInfo.getClientId(), pageable);
         };
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @GetMapping("/draft")
+    public Optional<Ticket> getDraftById(Long ticketId){
+        final JwtAuthentication authInfo = authService.getAuthInfo();
+        return ticketRepo.findByTicketIdAndTicketStatusAndClientId(ticketId, TicketStatus.DRAFT, authInfo.getClientId());
+    }
+
+    @PreAuthorize("hasAuthority('USER')")
+    @PostMapping("/editTicket")
+    public ResponseEntity<String> editDraft(String newText, Long ticketId) {
+        final JwtAuthentication authInfo = authService.getAuthInfo();
+        ticketRepo.editTicket(newText, ticketId,  authInfo.getClientId());
+        /*Optional<Ticket> ticketOptional = ticketRepo.findById(ticketId);*/
+        return ResponseEntity.ok("Works");
     }
 
 }

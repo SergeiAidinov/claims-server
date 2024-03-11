@@ -7,9 +7,11 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.yandex.incoming34.server.structures.TicketStatus;
 import ru.yandex.incoming34.server.structures.entity.Ticket;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface TicketRepo extends PagingAndSortingRepository<Ticket, Long> {
@@ -20,5 +22,13 @@ public interface TicketRepo extends PagingAndSortingRepository<Ticket, Long> {
     void fileTicket(@Param(value = "ticketId") Long ticketId);
 
     List<Ticket> findAllByClientIdOrderByCreationDateAsc(Long clientId, Pageable pageable);
+
     List<Ticket> findAllByClientIdOrderByCreationDateDesc(Long clientId, Pageable pageable);
+
+    Optional<Ticket> findByTicketIdAndTicketStatusAndClientId(Long ticketId, TicketStatus status, Long clientId);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "UPDATE tickets SET ticket_text = :newText WHERE (ticket_id = :ticketId AND ticket_status = 'DRAFT' AND client_id = :clientId)")
+    void editTicket(@Param(value = "newText") String newText, @Param(value = "ticketId") Long ticketId, @Param(value = "clientId") Long clientId);
 }
