@@ -1,18 +1,20 @@
 package ru.yandex.incoming34.server.controller;
 
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.incoming34.server.repo.TicketRepo;
 import ru.yandex.incoming34.server.service.AuthService;
 import ru.yandex.incoming34.server.structures.JwtAuthentication;
 import ru.yandex.incoming34.server.structures.SortingOrder;
-import ru.yandex.incoming34.server.structures.dto.TicketDraft;
 import ru.yandex.incoming34.server.structures.entity.Ticket;
 
-import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/user")
@@ -21,6 +23,7 @@ public class UserController {
 
     private final AuthService authService;
     private final TicketRepo ticketRepo;
+    private final Integer itemsPerPage;
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/newDraft")
@@ -43,11 +46,12 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/allTickets")
-    public Iterable<Ticket> viewTickets(SortingOrder sortingOrder){
+    public List<Ticket> viewTickets(Integer page, SortingOrder sortingOrder){
         final JwtAuthentication authInfo = authService.getAuthInfo();
+        Pageable pageable = PageRequest.of(page, itemsPerPage);
         return switch (sortingOrder) {
-            case ASCENDING -> ticketRepo.findAllByClientIdOrderByCreationDateAsc(authInfo.getClientId());
-            case DESCENDING -> ticketRepo.findAllByClientIdOrderByCreationDateDesc(authInfo.getClientId());
+            case ASCENDING -> ticketRepo.findAllByClientIdOrderByCreationDateAsc(authInfo.getClientId(), pageable);
+            case DESCENDING -> ticketRepo.findAllByClientIdOrderByCreationDateDesc(authInfo.getClientId(), pageable);
         };
     }
 
