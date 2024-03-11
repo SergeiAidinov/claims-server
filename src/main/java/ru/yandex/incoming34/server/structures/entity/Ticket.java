@@ -3,10 +3,13 @@ package ru.yandex.incoming34.server.structures.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 import ru.yandex.incoming34.server.structures.TicketStatus;
 import ru.yandex.incoming34.server.structures.dto.TicketDraft;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tickets")
@@ -26,6 +29,9 @@ public class Ticket {
     @Column(name = "ticket_status")
     @Enumerated(EnumType.STRING)
     private TicketStatus ticketStatus;
+    @Column(name = "ticket_ts")
+    @CreationTimestamp
+    private Timestamp creationDate;
 
     public Ticket(Long clientId, String ticketDraftText) {
         this.clientId = clientId;

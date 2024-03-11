@@ -15,4 +15,7 @@ public interface TicketRepo extends PagingAndSortingRepository<Ticket, Long> {
     @Transactional
     @Query(nativeQuery = true, value = "UPDATE tickets SET ticket_status = 'FILED' WHERE ticket_id = :ticketId")
     void fileTicket(@Param(value = "ticketId") Long ticketId);
+
+    Iterable<Ticket> findAllByClientIdOrderByCreationDateAsc(Long clientId);
+    Iterable<Ticket> findAllByClientIdOrderByCreationDateDesc(Long clientId);
 }
