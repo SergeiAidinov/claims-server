@@ -10,15 +10,16 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@NamedNativeQuery(name = "PostDtos", query = "SELECT client_name, ticket_id FROM tickets\n" +
+@NamedNativeQuery(name = "PostDtos", query = "SELECT client_name, ticket_id, tc.client_id FROM tickets\n" +
         "            join tickets_db.table_clients tc on tc.client_id = tickets.client_id\n" +
         "            WHERE client_name = :cn", resultSetMapping = "PostDtoMapping")
 @SqlResultSetMapping(name = "PostDtoMapping",
         classes = {
                 @ConstructorResult(
                         columns = {
-                                @ColumnResult(name = "ticket_id", type = long.class),
-                                @ColumnResult(name = "client_name")
+                                @ColumnResult(name = "ticket_id", type = Long.class),
+                                @ColumnResult(name = "client_name"),
+                                @ColumnResult(name = "client_id", type = Long.class)
                         },
                         targetClass = TicketWithUserName.class
                 )})
@@ -29,8 +30,9 @@ public class TicketWithUserName {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long ticketId;
     private String clientName;
-    /*@Column(name = "client_id")
+    @Column(name = "client_id")
     private Long clientId;
+    /*
     @Column(name = "ticket_id")
     private Long ticketId;
     @Column(name = "ticket_text")
