@@ -14,6 +14,8 @@ import ru.yandex.incoming34.structures.JwtAuthentication;
 import ru.yandex.incoming34.structures.SortingOrder;
 import ru.yandex.incoming34.structures.dto.TicketWithUserName;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/operator")
 @AllArgsConstructor
@@ -27,9 +29,9 @@ public class OperatorController {
 
     @GetMapping("/allTickets")
     @ApiOperation(value = "Просматривать отправленные заявки только конкретного пользователя по его имени/части имени")
-    public Iterable<TicketWithUserName> viewTickets(Integer page, SortingOrder sortingOrder, Long clientId){
+    public List<TicketWithUserName> viewTickets(Integer page, SortingOrder sortingOrder, Long clientId){
         final JwtAuthentication authInfo = authService.getAuthInfo();
-        Iterable<TicketWithUserName> s = ticketRepo.findAllByClientName("Winnie-the-Pooh");
+       List<TicketWithUserName> s = ticketRepo.findAllByClientName("Winnie-the-Pooh");
         /*return switch (sortingOrder) {
             case ASCENDING -> ticketRepo.findAllByClientIdOrderByCreationDateAsc(clientId, PageRequest.of(page, itemsPerPage));
             case DESCENDING -> ticketRepo.findAllByClientIdOrderByCreationDateDesc(clientId, PageRequest.of(page, itemsPerPage));
