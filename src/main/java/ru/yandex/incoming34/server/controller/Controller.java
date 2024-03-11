@@ -19,6 +19,7 @@ public class Controller {
     @PreAuthorize("hasAuthority('USER')")
     @GetMapping("hello/user")
     public ResponseEntity<String> helloUser() {
+        System.out.println();
         final JwtAuthentication authInfo = authService.getAuthInfo();
         return ResponseEntity.ok("Hello user " + authInfo.getPrincipal() + "!");
     }
@@ -26,6 +27,7 @@ public class Controller {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("hello/admin")
     public ResponseEntity<String> helloAdmin() {
+        System.out.println();
         final JwtAuthentication authInfo = authService.getAuthInfo();
         return ResponseEntity.ok("Hello admin " + authInfo.getPrincipal() + "!");
     }
