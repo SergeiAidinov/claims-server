@@ -37,12 +37,6 @@ public interface TicketRepo extends PagingAndSortingRepository<Ticket, Long> {
     @Query(nativeQuery = true, value = "UPDATE tickets SET ticket_text = :newText WHERE (ticket_id = :ticketId AND ticket_status = 'DRAFT' AND client_id = :clientId)")
     void editTicket(@Param(value = "newText") String newText, @Param(value = "ticketId") Long ticketId, @Param(value = "clientId") Long clientId);
 
-
-    //@Query(nativeQuery = true, value = "SELECT client_name FROM table_clients WHERE client_name = :clientName")
-    /*@NamedNativeQuery(
-            name = "FridayEmployees",
-            query = "SELECT client_name as clientName FROM tickets join tickets_db.table_clients tc on tc.client_id = tickets.client_id WHERE client_name = :clientName",
-            resultSetMapping = "FridayEmployeeResult")*/
     @Query(nativeQuery = true, name = "PostDtos")
-    List<TicketWithUserName> findAllByClientName();
+    List<TicketWithUserName> findAllByClientName(@Param("cn") String cn);
 }

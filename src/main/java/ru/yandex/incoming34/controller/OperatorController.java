@@ -28,7 +28,7 @@ public class OperatorController {
     @ApiOperation(value = "Просматривать отправленные заявки только конкретного пользователя по его имени/части имени")
     public Iterable<TicketWithUserName> viewTickets(Integer page, SortingOrder sortingOrder, Long clientId){
         final JwtAuthentication authInfo = authService.getAuthInfo();
-        Iterable<TicketWithUserName> s = ticketRepo.findAllByClientName();
+        Iterable<TicketWithUserName> s = ticketRepo.findAllByClientName("Winnie-the-Pooh");
         /*return switch (sortingOrder) {
             case ASCENDING -> ticketRepo.findAllByClientIdOrderByCreationDateAsc(clientId, PageRequest.of(page, itemsPerPage));
             case DESCENDING -> ticketRepo.findAllByClientIdOrderByCreationDateDesc(clientId, PageRequest.of(page, itemsPerPage));

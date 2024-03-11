@@ -12,7 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NamedNativeQuery(name = "PostDtos", query = "SELECT client_name, ticket_id FROM tickets\n" +
         "            join tickets_db.table_clients tc on tc.client_id = tickets.client_id\n" +
-        "            WHERE client_name = 'Winnie-the-Pooh'", resultSetMapping = "PostDtoMapping")
+        "            WHERE client_name = :cn", resultSetMapping = "PostDtoMapping")
 @SqlResultSetMapping(name = "PostDtoMapping",
         classes = {
                 @ConstructorResult(
