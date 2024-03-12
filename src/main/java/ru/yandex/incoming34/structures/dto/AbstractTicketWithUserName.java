@@ -1,19 +1,11 @@
 package ru.yandex.incoming34.structures.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import ru.yandex.incoming34.structures.TicketStatus;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
-@Data
-@NoArgsConstructor
-@NamedNativeQuery(name = "FindAllWithSimilarClientNameQuery", query = "SELECT client_name, ticket_id, tc.client_id, ticket_ts, ticket_status FROM tickets\n" +
-        "            join tickets_db.table_clients tc on tc.client_id = tickets.client_id\n" +
-        "            WHERE client_name LIKE :clientLikeName", resultSetMapping = "FindAllWithSimilarClientNameMapping")
 @SqlResultSetMapping(name = "FindAllWithSimilarClientNameMapping",
         classes = {
                 @ConstructorResult(
@@ -24,9 +16,10 @@ import java.time.LocalDateTime;
                                 @ColumnResult(name = "ticket_ts", type = LocalDateTime.class),
                                 @ColumnResult(name = "ticket_status", type = String.class)
                         },
-                        targetClass = TicketWithUserName.class
+                        targetClass = TicketWithUserNameAscending.class
                 )})
-public class TicketWithUserName {
+@MappedSuperclass
+public abstract class AbstractTicketWithUserName {
 
     @Id
     @Column(name = "ticket_id")
@@ -40,11 +33,19 @@ public class TicketWithUserName {
     @Column(name = "ticket_status")
     private TicketStatus ticketStatus;
 
-    public TicketWithUserName(Long ticketId, String clientName, Long clientId, LocalDateTime ticketTs, String ticketStatus) {
-        this.ticketId = ticketId;
+    public AbstractTicketWithUserName(Long ticketId, String clientName, Long clientId, LocalDateTime ticketTs, String ticketStatus) {
         this.clientName = clientName;
         this.clientId = clientId;
         this.ticketTs = ticketTs;
         this.ticketStatus = TicketStatus.valueOf(ticketStatus);
     }
+
+    public AbstractTicketWithUserName(){};
+
+    /*public AbstractTicketWithUserName(String clientName, Long clientId, LocalDateTime ticketTs, String ticketStatus) {
+        this.clientName = clientName;
+        this.clientId = clientId;
+        this.ticketTs = ticketTs;
+        this.ticketStatus = TicketStatus.valueOf(ticketStatus);
+    }*/
 }
