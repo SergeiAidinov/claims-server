@@ -13,6 +13,8 @@ import ru.yandex.incoming34.service.AuthService;
 import ru.yandex.incoming34.structures.JwtAuthentication;
 import ru.yandex.incoming34.structures.SortingOrder;
 import ru.yandex.incoming34.structures.dto.AbstractTicketWithUserName;
+import ru.yandex.incoming34.structures.dto.TicketWithUserNameAscending;
+import ru.yandex.incoming34.structures.dto.TicketWithUserNameDescending;
 
 import java.util.List;
 
@@ -31,11 +33,12 @@ public class OperatorController {
     @ApiOperation(value = "Просматривать отправленные заявки только конкретного пользователя по его имени/части имени")
     public List<? extends AbstractTicketWithUserName> viewTickets(Integer page, SortingOrder sortingOrder, String clientLikeName){
         final JwtAuthentication authInfo = authService.getAuthInfo();
-       List<? extends AbstractTicketWithUserName> s = ticketRepo.findAllWithSimilarClientName("%" + clientLikeName + "%", /*"ASC", */PageRequest.of(page, itemsPerPage));
+       List<TicketWithUserNameAscending> sa = ticketRepo.findAllWithSimilarClientNameAscending("%" + clientLikeName + "%", PageRequest.of(page, itemsPerPage));
+       //List<TicketWithUserNameDescending> sd = ticketRepo.findAllWithSimilarClientNameDescending("%" + clientLikeName + "%", PageRequest.of(page, itemsPerPage));
         /*return switch (sortingOrder) {
             case ASCENDING -> ticketRepo.findAllByClientIdOrderByCreationDateAsc(clientId, PageRequest.of(page, itemsPerPage));
             case DESCENDING -> ticketRepo.findAllByClientIdOrderByCreationDateDesc(clientId, PageRequest.of(page, itemsPerPage));
         };*/
-       return s;
+       return sa;
     }
 }

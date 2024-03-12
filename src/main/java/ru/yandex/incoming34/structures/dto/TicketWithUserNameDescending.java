@@ -1,16 +1,15 @@
 package ru.yandex.incoming34.structures.dto;
 
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@NamedNativeQuery(name = "FindAllWithSimilarClientNameQueryAscending", query = "SELECT client_name, ticket_id, tc.client_id, ticket_ts, ticket_status FROM tickets\n" +
+@NamedNativeQuery(name = "FindAllWithSimilarClientNameQueryDescending", query = "SELECT client_name, ticket_id, tc.client_id, ticket_ts, ticket_status FROM tickets\n" +
         "            join tickets_db.table_clients tc on tc.client_id = tickets.client_id\n" +
-        "            WHERE client_name LIKE :clientLikeName ORDER BY ticket_ts ASC", resultSetMapping = "FindAllWithSimilarClientNameMappingAscending")
-@SqlResultSetMapping(name = "FindAllWithSimilarClientNameMappingAscending",
+        "            WHERE client_name LIKE :clientLikeName ORDER BY ticket_ts DESC", resultSetMapping = "FindAllWithSimilarClientNameMappingDescending")
+@SqlResultSetMapping(name = "FindAllWithSimilarClientNameMappingDescending",
         classes = {
                 @ConstructorResult(
                         columns = {
@@ -20,15 +19,13 @@ import java.time.LocalDateTime;
                                 @ColumnResult(name = "ticket_ts", type = LocalDateTime.class),
                                 @ColumnResult(name = "ticket_status", type = String.class)
                         },
-                        targetClass = TicketWithUserNameAscending.class
+                        targetClass = TicketWithUserNameDescending.class
                 )})
-public class TicketWithUserNameAscending extends AbstractTicketWithUserName {
+public class TicketWithUserNameDescending extends AbstractTicketWithUserName{
 
-    public TicketWithUserNameAscending(Long ticketId, String clientName, Long clientId, LocalDateTime ticketTs, String ticketStatus) {
+    public TicketWithUserNameDescending(Long ticketId, String clientName, Long clientId, LocalDateTime ticketTs, String ticketStatus) {
         super(ticketId, clientName, clientId, ticketTs, ticketStatus);
     }
 
-    public TicketWithUserNameAscending() {
-super();
-    }
+    /*public TicketWithUserNameDescending(){};*/
 }

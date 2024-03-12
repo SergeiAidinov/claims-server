@@ -8,7 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.incoming34.structures.TicketStatus;
-import ru.yandex.incoming34.structures.dto.AbstractTicketWithUserName;
+import ru.yandex.incoming34.structures.dto.TicketWithUserNameAscending;
+import ru.yandex.incoming34.structures.dto.TicketWithUserNameDescending;
 import ru.yandex.incoming34.structures.entity.Ticket;
 
 import java.util.List;
@@ -33,6 +34,9 @@ public interface TicketRepo extends PagingAndSortingRepository<Ticket, Long> {
     @Query(nativeQuery = true, value = "UPDATE tickets SET ticket_text = :newText WHERE (ticket_id = :ticketId AND ticket_status = 'DRAFT' AND client_id = :clientId)")
     void editTicket(@Param(value = "newText") String newText, @Param(value = "ticketId") Long ticketId, @Param(value = "clientId") Long clientId);
 
-    @Query(nativeQuery = true, name = "FindAllWithSimilarClientNameQuery")
-    List<? extends AbstractTicketWithUserName> findAllWithSimilarClientName(@Param("clientLikeName") String clientLikeName, Pageable pageable);
+    @Query(nativeQuery = true, name = "FindAllWithSimilarClientNameQueryAscending")
+    List<TicketWithUserNameAscending> findAllWithSimilarClientNameAscending(@Param("clientLikeName") String clientLikeName, Pageable pageable);
+
+    @Query(nativeQuery = true, name = "FindAllWithSimilarClientNameQueryDescending")
+    List<TicketWithUserNameDescending> findAllWithSimilarClientNameDescending(@Param("clientLikeName") String clientLikeName, Pageable pageable);
 }

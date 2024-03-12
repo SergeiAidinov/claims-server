@@ -6,7 +6,7 @@ import ru.yandex.incoming34.structures.TicketStatus;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@SqlResultSetMapping(name = "FindAllWithSimilarClientNameMapping",
+/*@SqlResultSetMapping(name = "FindAllWithSimilarClientNameMapping",
         classes = {
                 @ConstructorResult(
                         columns = {
@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
                         },
                         targetClass = TicketWithUserNameAscending.class
                 )})
+@MappedSuperclass*/
 @MappedSuperclass
 public abstract class AbstractTicketWithUserName {
 
