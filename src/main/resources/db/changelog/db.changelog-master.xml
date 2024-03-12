@@ -18,4 +18,6 @@
             file="db/changelog/createRoutines/create-procedure-prepare-data.xml"/>
     <include
             file="db/changelog/createRoutines/create-procedure-prepare-data-caller.xml"/>
+    <include
+            file="db/changelog/createRoutines/call-procedure.xml"/>
 </databaseChangeLog>
