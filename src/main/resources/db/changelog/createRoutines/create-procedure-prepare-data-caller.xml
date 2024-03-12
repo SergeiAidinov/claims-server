@@ -7,5 +7,10 @@
       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd
       http://www.liquibase.org/xml/ns/pro
       http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.1.xsd">
-    <include file="db/changelog/createRoutines/create-procedure-prepare-data-caller.sql"/>
+   <!-- <include file="db/changelog/createRoutines/create-procedure-prepare-data-caller.sql"/>-->
+    <changeSet id="258e4891-6f5a-48dc-8db6-ef3136922be7" author="sergei">
+        <sqlFile
+                splitStatements="false"
+                path="db/changelog/createRoutines/create-procedure-prepare-data-caller.sql"/>
+    </changeSet>
 </databaseChangeLog>

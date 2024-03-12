@@ -1,17 +1,17 @@
---liquibase formatted sql
---changeset sergei:258e4891-6f5a-48dc-8db6-ef3136922be7
-
 CREATE PROCEDURE prepare_data_caller()
+
 BEGIN
-    DECLARE i INT DEFAULT 1;
-    DECLARE userName VARCHAR(128);
-    #SELECT client_name INTO userName FROM table_clients WHERE client_id = user_id;
-    /*WHILE i <= 100 DO
-            INSERT INTO tickets (ticket_id, client_id, ticket_text, ticket_status, ticket_ts)
-            VALUES (null, user_id, CONCAT('Заявка ', userName, ' ', i), 'DRAFT', DATE_SUB(DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 DAY), INTERVAL i MINUTE));
-
-            SET i = i + 1;
-        END WHILE;*/
-END;
-
---rollback DROP PROCEDURE IF EXISTS prepare_data_caller;
+    DECLARE current_status BIGINT;
+    DECLARE cursor_List_isdone BOOLEAN DEFAULT FALSE;
+    DECLARE  client_id_cursor CURSOR FOR SELECT client_id FROM table_clients WHERE table_clients.client_roles LIKE '%ADMIN%';
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET cursor_List_isdone = TRUE;
+    OPEN client_id_cursor;
+    loop_List: LOOP
+        FETCH client_id_cursor INTO current_status;
+        IF cursor_List_isdone THEN
+            LEAVE loop_List;
+        END IF;
+        CALL prepare_data(current_status);
+    END LOOP;
+    CLOSE client_id_cursor;
+END
