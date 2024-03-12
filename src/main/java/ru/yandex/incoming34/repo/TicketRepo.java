@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.incoming34.structures.TicketStatus;
 import ru.yandex.incoming34.structures.dto.FiledTicketWithUserNameAscending;
 import ru.yandex.incoming34.structures.dto.FiledTicketWithUserNameDescending;
-import ru.yandex.incoming34.structures.dto.UnFiledTicketWithUserName;
+import ru.yandex.incoming34.structures.dto.NotDraftTicketWithUserName;
 import ru.yandex.incoming34.structures.entity.Ticket;
 
 import java.util.List;
@@ -41,8 +41,8 @@ public interface TicketRepo extends PagingAndSortingRepository<Ticket, Long> {
     @Query(nativeQuery = true, name = "FindAllWithSimilarClientNameQueryDescending")
     List<FiledTicketWithUserNameDescending> findAllWithSimilarClientNameDescending(@Param("clientLikeName") String clientLikeName, Pageable pageable);
 
-    @Query(nativeQuery = true, name = "UnFiledTicketWithUserNameQuery")
-    List<UnFiledTicketWithUserName> findAllUnFiledTicketWithUserName(@Param("clientLikeName") String clientLikeName, Pageable pageable);
+    @Query(nativeQuery = true, name = "NotDraftTicketWithUserNameQuery")
+    List<NotDraftTicketWithUserName> findAllUnFiledTicketWithUserName(@Param("clientLikeName") String clientLikeName, Pageable pageable);
 
     @Modifying
     @Transactional
