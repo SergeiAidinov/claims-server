@@ -39,4 +39,14 @@ public interface TicketRepo extends PagingAndSortingRepository<Ticket, Long> {
 
     @Query(nativeQuery = true, name = "FindAllWithSimilarClientNameQueryDescending")
     List<TicketWithUserNameDescending> findAllWithSimilarClientNameDescending(@Param("clientLikeName") String clientLikeName, Pageable pageable);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "UPDATE tickets SET ticket_status = 'ACCEPTED' WHERE ticket_id = :ticketId")
+    void acceptTicketById(@Param("ticketId") Long ticketId);
+
+    @Modifying
+    @Transactional
+    @Query(nativeQuery = true, value = "UPDATE tickets SET ticket_status = 'DECLINED' WHERE ticket_id = :ticketId")
+    void declineTicketById(Long ticketId);
 }

@@ -5,7 +5,7 @@ CREATE TABLE tickets
 (   ticket_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     client_id BIGINT NOT NULL ,
     ticket_text    VARCHAR(1024),
-    ticket_status enum ('DRAFT', 'FILED', 'ACCEPTED', 'DECLINRD'),
+    ticket_status enum ('DRAFT', 'FILED', 'ACCEPTED', 'DECLINED'),
     ticket_ts DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (client_id) REFERENCES table_clients (client_id) ON DELETE CASCADE
 );

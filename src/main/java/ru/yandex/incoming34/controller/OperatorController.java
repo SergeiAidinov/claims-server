@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.incoming34.repo.TicketRepo;
@@ -39,9 +41,25 @@ public class OperatorController {
             case DESCENDING -> ticketRepo.findAllWithSimilarClientNameDescending("%" + clientLikeName + "%", PageRequest.of(page, itemsPerPage));
         };
     }
-    @GetMapping("/allTickets/{ticketId}")
+
+    @GetMapping("/ticket/{ticketId}")
     @ApiOperation(value = "Смотреть заявку по id")
     public Optional<Ticket> viewTicketById(@Parameter(description = "Идентификатор заявки", required = true) @PathVariable Long ticketId){
         return ticketRepo.findById(ticketId);
     }
+
+    @PutMapping("/acceptTicket/{ticketId}")
+    @ApiOperation(value = "Принять заявку по id")
+    public ResponseEntity acceptTicketById(@Parameter(description = "Идентификатор заявки", required = true) @PathVariable Long ticketId){
+        ticketRepo.acceptTicketById(ticketId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/declineTicket/{ticketId}")
+    @ApiOperation(value = "Отклонить заявку по id")
+    public ResponseEntity declineTicketById(@Parameter(description = "Идентификатор заявки", required = true) @PathVariable Long ticketId){
+        ticketRepo.declineTicketById(ticketId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
