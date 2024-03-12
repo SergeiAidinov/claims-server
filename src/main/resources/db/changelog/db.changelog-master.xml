@@ -14,4 +14,8 @@
             file="/db/changelog/createTables/create-table-tickets.xml"/>
     <include
             file="/db/changelog/insertData/insert-data.xml"/>
+    <include
+            file="db/changelog/createRoutines/create-procedure-prepare-data.xml"/>
+    <include
+            file="db/changelog/createRoutines/create-procedure-prepare-data-caller.xml"/>
 </databaseChangeLog>
