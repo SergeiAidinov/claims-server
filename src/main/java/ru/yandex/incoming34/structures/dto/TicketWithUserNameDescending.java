@@ -1,14 +1,12 @@
 package ru.yandex.incoming34.structures.dto;
 
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @NamedNativeQuery(name = "FindAllWithSimilarClientNameQueryDescending", query = "SELECT client_name, ticket_id, tc.client_id, ticket_ts, ticket_status FROM tickets\n" +
         "            join tickets_db.table_clients tc on tc.client_id = tickets.client_id\n" +
-        "            WHERE client_name LIKE :clientLikeName ORDER BY ticket_ts DESC", resultSetMapping = "FindAllWithSimilarClientNameMappingDescending")
+        "            WHERE (client_name LIKE :clientLikeName AND ticket_status = 'FILED') ORDER BY ticket_ts DESC", resultSetMapping = "FindAllWithSimilarClientNameMappingDescending")
 @SqlResultSetMapping(name = "FindAllWithSimilarClientNameMappingDescending",
         classes = {
                 @ConstructorResult(
@@ -27,5 +25,7 @@ public class TicketWithUserNameDescending extends AbstractTicketWithUserName{
         super(ticketId, clientName, clientId, ticketTs, ticketStatus);
     }
 
-    /*public TicketWithUserNameDescending(){};*/
+    public TicketWithUserNameDescending(){
+        super();
+    };
 }
