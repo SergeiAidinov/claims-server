@@ -6,15 +6,15 @@ import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.yandex.incoming34.repo.TicketRepo;
 import ru.yandex.incoming34.service.AuthService;
 import ru.yandex.incoming34.structures.SortingOrder;
 import ru.yandex.incoming34.structures.dto.AbstractTicketWithUserName;
+import ru.yandex.incoming34.structures.entity.Ticket;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api/operator")
@@ -38,5 +38,10 @@ public class OperatorController {
             case ASCENDING -> ticketRepo.findAllWithSimilarClientNameAscending("%" + clientLikeName + "%", PageRequest.of(page, itemsPerPage));
             case DESCENDING -> ticketRepo.findAllWithSimilarClientNameDescending("%" + clientLikeName + "%", PageRequest.of(page, itemsPerPage));
         };
+    }
+    @GetMapping("/allTickets/{ticketId}")
+    @ApiOperation(value = "Смотреть заявку по id")
+    public Optional<Ticket> viewTicketById(@Parameter(description = "Идентификатор заявки", required = true) @PathVariable Long ticketId){
+        return ticketRepo.findById(ticketId);
     }
 }
