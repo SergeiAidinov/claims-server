@@ -1,5 +1,6 @@
 package ru.yandex.incoming34.controller;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import ru.yandex.incoming34.structures.dto.RefreshJwtRequest;
 @RestController
 @RequestMapping("api/auth")
 @RequiredArgsConstructor
+@Api(description = "Предоставляет эндпойнты для входа в систему", tags = "Контроллер аутентификации")
 public class AuthController {
 
     private final AuthService authService;
