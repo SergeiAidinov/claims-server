@@ -4,10 +4,10 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@NamedNativeQuery(name = "FindAllWithSimilarClientNameQueryDescending", query = "SELECT client_name, ticket_id, tc.client_id, ticket_ts, ticket_status FROM tickets\n" +
+@NamedNativeQuery(name = "FindAllWithSimilarClientNameQueryAscending", query = "SELECT client_name, ticket_id, tc.client_id, ticket_ts, ticket_status FROM tickets\n" +
         "            join tickets_db.table_clients tc on tc.client_id = tickets.client_id\n" +
-        "            WHERE (client_name LIKE :clientLikeName AND ticket_status = 'FILED') ORDER BY ticket_ts DESC", resultSetMapping = "FindAllWithSimilarClientNameMappingDescending")
-@SqlResultSetMapping(name = "FindAllWithSimilarClientNameMappingDescending",
+        "            WHERE (client_name LIKE :clientLikeName AND ticket_status = 'FILED') ORDER BY ticket_ts ASC", resultSetMapping = "FindAllWithSimilarClientNameMappingAscending")
+@SqlResultSetMapping(name = "FindAllWithSimilarClientNameMappingAscending",
         classes = {
                 @ConstructorResult(
                         columns = {
@@ -17,15 +17,15 @@ import java.time.LocalDateTime;
                                 @ColumnResult(name = "ticket_ts", type = LocalDateTime.class),
                                 @ColumnResult(name = "ticket_status", type = String.class)
                         },
-                        targetClass = TicketWithUserNameDescending.class
+                        targetClass = FiledTicketWithUserNameAscending.class
                 )})
-public class TicketWithUserNameDescending extends AbstractTicketWithUserName{
+public class FiledTicketWithUserNameAscending extends AbstractTicketWithUserName {
 
-    public TicketWithUserNameDescending(Long ticketId, String clientName, Long clientId, LocalDateTime ticketTs, String ticketStatus) {
+    public FiledTicketWithUserNameAscending(Long ticketId, String clientName, Long clientId, LocalDateTime ticketTs, String ticketStatus) {
         super(ticketId, clientName, clientId, ticketTs, ticketStatus);
     }
 
-    public TicketWithUserNameDescending(){
+    public FiledTicketWithUserNameAscending() {
         super();
-    };
+    }
 }

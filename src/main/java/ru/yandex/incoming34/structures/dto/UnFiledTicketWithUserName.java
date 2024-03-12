@@ -4,10 +4,10 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@NamedNativeQuery(name = "FindAllWithSimilarClientNameQueryAscending", query = "SELECT client_name, ticket_id, tc.client_id, ticket_ts, ticket_status FROM tickets\n" +
+@NamedNativeQuery(name = "UnFiledTicketWithUserNameQuery", query = "SELECT client_name, ticket_id, tc.client_id, ticket_ts, ticket_status FROM tickets\n" +
         "            join tickets_db.table_clients tc on tc.client_id = tickets.client_id\n" +
-        "            WHERE (client_name LIKE :clientLikeName AND ticket_status = 'FILED') ORDER BY ticket_ts ASC", resultSetMapping = "FindAllWithSimilarClientNameMappingAscending")
-@SqlResultSetMapping(name = "FindAllWithSimilarClientNameMappingAscending",
+        "            WHERE (client_name LIKE :clientLikeName AND ticket_status != 'FILED') ORDER BY ticket_ts ASC", resultSetMapping = "FindAllWithSimilarClientNameMappingDescending")
+@SqlResultSetMapping(name = "FindAllUnFiledTicketWithUserName",
         classes = {
                 @ConstructorResult(
                         columns = {
@@ -17,15 +17,14 @@ import java.time.LocalDateTime;
                                 @ColumnResult(name = "ticket_ts", type = LocalDateTime.class),
                                 @ColumnResult(name = "ticket_status", type = String.class)
                         },
-                        targetClass = TicketWithUserNameAscending.class
+                        targetClass = UnFiledTicketWithUserName.class
                 )})
-public class TicketWithUserNameAscending extends AbstractTicketWithUserName {
+public class UnFiledTicketWithUserName extends AbstractTicketWithUserName{
 
-    public TicketWithUserNameAscending(Long ticketId, String clientName, Long clientId, LocalDateTime ticketTs, String ticketStatus) {
+    public UnFiledTicketWithUserName(Long ticketId, String clientName, Long clientId, LocalDateTime ticketTs, String ticketStatus) {
         super(ticketId, clientName, clientId, ticketTs, ticketStatus);
     }
 
-    public TicketWithUserNameAscending() {
-        super();
-    }
+    public UnFiledTicketWithUserName(){super();}
+
 }
