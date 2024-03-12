@@ -11,10 +11,6 @@ import ru.yandex.incoming34.structures.TicketStatus;
 import ru.yandex.incoming34.structures.dto.TicketWithUserName;
 import ru.yandex.incoming34.structures.entity.Ticket;
 
-import javax.persistence.ColumnResult;
-import javax.persistence.ConstructorResult;
-import javax.persistence.NamedNativeQuery;
-import javax.persistence.SqlResultSetMapping;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,6 +33,6 @@ public interface TicketRepo extends PagingAndSortingRepository<Ticket, Long> {
     @Query(nativeQuery = true, value = "UPDATE tickets SET ticket_text = :newText WHERE (ticket_id = :ticketId AND ticket_status = 'DRAFT' AND client_id = :clientId)")
     void editTicket(@Param(value = "newText") String newText, @Param(value = "ticketId") Long ticketId, @Param(value = "clientId") Long clientId);
 
-    @Query(nativeQuery = true, name = "PostDtos")
-    List<TicketWithUserName> findAllByClientName(@Param("cn") String cn);
+    @Query(nativeQuery = true, name = "FindAllWithSimilarClientNameQuery")
+    List<TicketWithUserName> findAllWithSimilarClientName(@Param("clientLikeName") String clientLikeName);
 }

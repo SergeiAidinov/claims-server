@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 @Entity
 @Data
 @NoArgsConstructor
-@NamedNativeQuery(name = "PostDtos", query = "SELECT client_name, ticket_id, tc.client_id, ticket_ts, ticket_status FROM tickets\n" +
+@NamedNativeQuery(name = "FindAllWithSimilarClientNameQuery", query = "SELECT client_name, ticket_id, tc.client_id, ticket_ts, ticket_status FROM tickets\n" +
         "            join tickets_db.table_clients tc on tc.client_id = tickets.client_id\n" +
-        "            WHERE client_name = :cn", resultSetMapping = "PostDtoMapping")
-@SqlResultSetMapping(name = "PostDtoMapping",
+        "            WHERE client_name LIKE :clientLikeName", resultSetMapping = "FindAllWithSimilarClientNameMapping")
+@SqlResultSetMapping(name = "FindAllWithSimilarClientNameMapping",
         classes = {
                 @ConstructorResult(
                         columns = {
