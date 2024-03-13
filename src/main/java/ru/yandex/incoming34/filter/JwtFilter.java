@@ -1,17 +1,16 @@
 package ru.yandex.incoming34.filter;
 
-import ru.yandex.incoming34.exception.AuthException;
-import ru.yandex.incoming34.repo.ClientRepo;
-import ru.yandex.incoming34.service.AuthService;
-import ru.yandex.incoming34.service.JwtProvider;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import ru.yandex.incoming34.structures.JwtAuthentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
+import ru.yandex.incoming34.exception.AuthException;
+import ru.yandex.incoming34.repo.ClientRepo;
+import ru.yandex.incoming34.service.JwtProvider;
+import ru.yandex.incoming34.structures.JwtAuthentication;
 import ru.yandex.incoming34.structures.Role;
 import ru.yandex.incoming34.structures.entity.Client;
 
@@ -21,7 +20,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -78,10 +76,8 @@ public class JwtFilter extends GenericFilterBean {
     }
 
     private Set<Role> getRoles(Claims claims) {
-        List<Role> rr = Arrays.asList(Role.values());
         Set<String> ss = Arrays.asList(claims.get("roles", String.class).split(":")).stream().collect(Collectors.toSet());
-        Set<Role> qq = rr.stream().filter(role -> ss.contains(role.name())).collect(Collectors.toSet());
-        return qq;
+        return Arrays.asList(Role.values()).stream().filter(role -> ss.contains(role.name())).collect(Collectors.toSet());
     }
 
 }
