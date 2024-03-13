@@ -2,7 +2,9 @@ package ru.yandex.incoming34.controller;
 
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.incoming34.service.AuthService;
 import ru.yandex.incoming34.structures.dto.JwtRequest;
@@ -32,6 +34,13 @@ public class AuthController {
     public ResponseEntity<JwtResponse> getNewRefreshToken(@PathVariable String request) {
         final JwtResponse token = authService.refresh(request);
         return ResponseEntity.ok(token);
+    }
+
+    @GetMapping("logout")
+    public ResponseEntity logout() {
+        String log = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        authService.logout(log);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

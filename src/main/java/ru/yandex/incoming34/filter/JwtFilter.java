@@ -57,7 +57,7 @@ public class JwtFilter extends GenericFilterBean {
         jwtInfoToken.setRoles(getRoles(claims));
         jwtInfoToken.setFirstName(claims.get("firstName", String.class));
         jwtInfoToken.setUsername(claims.getSubject());
-        jwtInfoToken.setClientId(1L);
+        //jwtInfoToken.setClientId(1L);
         return jwtInfoToken;
     }
 

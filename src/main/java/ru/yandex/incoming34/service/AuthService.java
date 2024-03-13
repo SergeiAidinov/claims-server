@@ -49,7 +49,7 @@ public class AuthService {
                 return new JwtResponse(12341234L, accessToken, null);
             }
         }
-        return new JwtResponse(0L,  null, null);
+        return new JwtResponse(0L, null, null);
     }
 
     public JwtResponse refresh(@NonNull String refreshToken) {
@@ -73,6 +73,7 @@ public class AuthService {
         return (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
     }
 
-
-
+    public void logout(String log) {
+        refreshStorage.remove(log);
+    }
 }
