@@ -8,9 +8,9 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.yandex.incoming34.structures.TicketStatus;
-import ru.yandex.incoming34.structures.dto.FiledTicketWithUserNameAscending;
-import ru.yandex.incoming34.structures.dto.FiledTicketWithUserNameDescending;
-import ru.yandex.incoming34.structures.dto.NotDraftTicketWithUserName;
+import ru.yandex.incoming34.structures.entity.FiledTicketWithUserNameAscending;
+import ru.yandex.incoming34.structures.entity.FiledTicketWithUserNameDescending;
+import ru.yandex.incoming34.structures.entity.NotDraftTicketWithUserName;
 import ru.yandex.incoming34.structures.entity.Ticket;
 
 import java.util.List;

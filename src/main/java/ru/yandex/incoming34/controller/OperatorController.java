@@ -7,20 +7,16 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import ru.yandex.incoming34.repo.TicketRepo;
 import ru.yandex.incoming34.repo.ClientRepo;
+import ru.yandex.incoming34.repo.TicketRepo;
 import ru.yandex.incoming34.service.AuthService;
 import ru.yandex.incoming34.structures.Role;
 import ru.yandex.incoming34.structures.SortingOrder;
-import ru.yandex.incoming34.structures.dto.AbstractTicketWithUserName;
-import ru.yandex.incoming34.structures.entity.Client;
+import ru.yandex.incoming34.structures.entity.AbstractTicketWithUserName;
 import ru.yandex.incoming34.structures.entity.Ticket;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("api/operator")
@@ -71,7 +67,7 @@ public class OperatorController {
 
     @PutMapping("/defineOperator/{clientId}")
     @ApiOperation(value = "Назначить пользователю права оператора")
-    public ResponseEntity defineOperator(@Parameter(description = "Идентификатор заявки", required = true) @PathVariable Long clientId) {
+    public ResponseEntity defineOperator(@Parameter(description = "Идентификатор пользователя", required = true) @PathVariable Long clientId) {
         clientRepo.findById(clientId).ifPresent(client -> {
             final StringJoiner stringJoiner = new StringJoiner(":");
             final Set<String> roles = (new HashSet<>(Arrays.asList(client.getRoles().split(":"))));

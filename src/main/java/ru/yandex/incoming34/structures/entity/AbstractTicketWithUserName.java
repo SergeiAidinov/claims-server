@@ -1,4 +1,4 @@
-package ru.yandex.incoming34.structures.dto;
+package ru.yandex.incoming34.structures.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import ru.yandex.incoming34.structures.TicketStatus;

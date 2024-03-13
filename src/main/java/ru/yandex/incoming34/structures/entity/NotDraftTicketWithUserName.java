@@ -1,4 +1,4 @@
-package ru.yandex.incoming34.structures.dto;
+package ru.yandex.incoming34.structures.entity;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.incoming34.repo.TicketRepo;
 import ru.yandex.incoming34.repo.ClientRepo;
-import ru.yandex.incoming34.structures.dto.AbstractTicketWithUserName;
+import ru.yandex.incoming34.structures.entity.AbstractTicketWithUserName;
 import ru.yandex.incoming34.structures.entity.Client;
 
 import java.util.List;
