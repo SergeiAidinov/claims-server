@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.incoming34.repo.TicketRepo;
-import ru.yandex.incoming34.repo.UserRepo;
+import ru.yandex.incoming34.repo.ClientRepo;
 import ru.yandex.incoming34.structures.dto.AbstractTicketWithUserName;
-import ru.yandex.incoming34.structures.entity.User;
+import ru.yandex.incoming34.structures.entity.Client;
 
 import java.util.List;
 
@@ -22,14 +22,14 @@ import java.util.List;
 //@PreAuthorize("hasAuthority('ADMIN')")
 public class AdminController {
 
-    private final UserRepo userRepo;
+    private final ClientRepo clientRepo;
     private final TicketRepo ticketRepo;
     private final Integer itemsPerPage;
 
     @GetMapping("/allUsers")
     @ApiOperation(value = "Посмотреть список пользователей")
-    public Iterable<User> getAllUsers() {
-        return userRepo.findAll();
+    public Iterable<Client> getAllUsers() {
+        return clientRepo.findAll();
     }
 
     @GetMapping("/unfiledTickets")

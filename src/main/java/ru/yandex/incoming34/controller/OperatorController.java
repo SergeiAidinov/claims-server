@@ -10,24 +10,33 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.incoming34.repo.TicketRepo;
+import ru.yandex.incoming34.repo.ClientRepo;
 import ru.yandex.incoming34.service.AuthService;
+import ru.yandex.incoming34.structures.Role;
 import ru.yandex.incoming34.structures.SortingOrder;
 import ru.yandex.incoming34.structures.dto.AbstractTicketWithUserName;
+import ru.yandex.incoming34.structures.entity.Client;
 import ru.yandex.incoming34.structures.entity.Ticket;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.StringJoiner;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("api/operator")
 @AllArgsConstructor
 @Api(description = "Предоставляет эндпойнты, доступные пользователю с ролью \"OPERATOR\"", tags = "Контроллер оператора")
-@PreAuthorize("hasAuthority('OPERATOR')")
+//@PreAuthorize("hasAuthority('OPERATOR')")
 public class OperatorController {
 
     private final AuthService authService;
     private final TicketRepo ticketRepo;
     private final Integer itemsPerPage;
+    private final ClientRepo clientRepo;
 
     @GetMapping("/allTickets")
     @ApiOperation(value = "Позволяет просматривать отправленные заявки конкретного пользователя по его\n" +
@@ -59,6 +68,20 @@ public class OperatorController {
     @ApiOperation(value = "Отклонить заявку по id")
     public ResponseEntity declineTicketById(@Parameter(description = "Идентификатор заявки", required = true) @PathVariable Long ticketId){
         ticketRepo.declineTicketById(ticketId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/defineOperator/{clientId}")
+    @ApiOperation(value = "Назначить пользователю права оператора")
+    public ResponseEntity defineOperator(@Parameter(description = "Идентификатор заявки", required = true) @PathVariable Long clientId){
+        final StringJoiner stringJoiner = new StringJoiner(":");
+        Optional<Client> c = clientRepo.findById(clientId);
+        Set<String> l = Arrays.asList(c.get().getRoles().split(":")).stream().collect(Collectors.toSet());
+        l.add(Role.OPERATOR.name());
+        l.stream().forEach(s -> stringJoiner.add(s));
+        String ss = stringJoiner.toString();
+        c.get().setRoles(ss);
+        System.out.println(c);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

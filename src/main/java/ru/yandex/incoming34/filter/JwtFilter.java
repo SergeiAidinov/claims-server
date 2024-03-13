@@ -1,7 +1,7 @@
 package ru.yandex.incoming34.filter;
 
 import ru.yandex.incoming34.service.JwtProvider;
-import ru.yandex.incoming34.service.JwtUtils;
+import ru.yandex.incoming34.util.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

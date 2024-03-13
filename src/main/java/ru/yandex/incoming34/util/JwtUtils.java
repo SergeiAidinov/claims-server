@@ -1,4 +1,4 @@
-package ru.yandex.incoming34.service;
+package ru.yandex.incoming34.util;
 
 import io.jsonwebtoken.Claims;
 import ru.yandex.incoming34.structures.JwtAuthentication;
@@ -25,7 +25,7 @@ public final class JwtUtils {
         List<Role> rr = Arrays.asList(Role.values());
         Set<String> ss = Arrays.asList(claims.get("roles", String.class).split(":")).stream().collect(Collectors.toSet());
         Set<Role> qq = rr.stream().filter(role -> ss.contains(role.name())).collect(Collectors.toSet());
-       return qq;
+        return qq;
     }
 
 }

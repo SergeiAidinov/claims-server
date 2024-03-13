@@ -2,12 +2,12 @@ package ru.yandex.incoming34.repo;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
-import ru.yandex.incoming34.structures.entity.User;
+import ru.yandex.incoming34.structures.entity.Client;
 
 import java.util.Optional;
 
 @Repository
-public interface UserRepo extends CrudRepository<User, Long> {
+public interface ClientRepo extends CrudRepository<Client, Long> {
 
-    Optional<User> findByLogin(String login);
+    Optional<Client> findByLogin(String login);
 }
