@@ -18,12 +18,8 @@ import ru.yandex.incoming34.structures.dto.AbstractTicketWithUserName;
 import ru.yandex.incoming34.structures.entity.Client;
 import ru.yandex.incoming34.structures.entity.Ticket;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.StringJoiner;
 import java.util.stream.Stream;
 
 @RestController
@@ -44,44 +40,46 @@ public class OperatorController {
     public List<? extends AbstractTicketWithUserName> viewTickets(
             @Parameter(description = "Запрашиваемая страница", required = true) Integer page,
             @Parameter(description = "Порядок сортировки", required = true) SortingOrder sortingOrder,
-            @Parameter(description = "Имя либо часть имени запрашиваемого клиента", required = true) String clientLikeName){
+            @Parameter(description = "Имя либо часть имени запрашиваемого клиента", required = true) String clientLikeName) {
         return switch (sortingOrder) {
-            case ASCENDING -> ticketRepo.findAllWithSimilarClientNameAscending("%" + clientLikeName + "%", PageRequest.of(page, itemsPerPage));
-            case DESCENDING -> ticketRepo.findAllWithSimilarClientNameDescending("%" + clientLikeName + "%", PageRequest.of(page, itemsPerPage));
+            case ASCENDING ->
+                    ticketRepo.findAllWithSimilarClientNameAscending("%" + clientLikeName + "%", PageRequest.of(page, itemsPerPage));
+            case DESCENDING ->
+                    ticketRepo.findAllWithSimilarClientNameDescending("%" + clientLikeName + "%", PageRequest.of(page, itemsPerPage));
         };
     }
 
     @GetMapping("/ticket/{ticketId}")
     @ApiOperation(value = "Смотреть заявку по id")
-    public Optional<Ticket> viewTicketById(@Parameter(description = "Идентификатор заявки", required = true) @PathVariable Long ticketId){
+    public Optional<Ticket> viewTicketById(@Parameter(description = "Идентификатор заявки", required = true) @PathVariable Long ticketId) {
         return ticketRepo.findById(ticketId);
     }
 
     @PutMapping("/acceptTicket/{ticketId}")
     @ApiOperation(value = "Принять заявку по id")
-    public ResponseEntity acceptTicketById(@Parameter(description = "Идентификатор заявки", required = true) @PathVariable Long ticketId){
+    public ResponseEntity acceptTicketById(@Parameter(description = "Идентификатор заявки", required = true) @PathVariable Long ticketId) {
         ticketRepo.acceptTicketById(ticketId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/declineTicket/{ticketId}")
     @ApiOperation(value = "Отклонить заявку по id")
-    public ResponseEntity declineTicketById(@Parameter(description = "Идентификатор заявки", required = true) @PathVariable Long ticketId){
+    public ResponseEntity declineTicketById(@Parameter(description = "Идентификатор заявки", required = true) @PathVariable Long ticketId) {
         ticketRepo.declineTicketById(ticketId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/defineOperator/{clientId}")
     @ApiOperation(value = "Назначить пользователю права оператора")
-    public ResponseEntity defineOperator(@Parameter(description = "Идентификатор заявки", required = true) @PathVariable Long clientId){
-        final StringJoiner stringJoiner = new StringJoiner(":");
-        Optional<Client> c = clientRepo.findById(clientId);
-        Set<String> l = Arrays.asList(c.get().getRoles().split(":")).stream().collect(Collectors.toSet());
-        l.add(Role.OPERATOR.name());
-        l.stream().forEach(s -> stringJoiner.add(s));
-        String ss = stringJoiner.toString();
-        c.get().setRoles(ss);
-        System.out.println(c);
+    public ResponseEntity defineOperator(@Parameter(description = "Идентификатор заявки", required = true) @PathVariable Long clientId) {
+        clientRepo.findById(clientId).ifPresent(client -> {
+            final StringJoiner stringJoiner = new StringJoiner(":");
+            final Set<String> roles = (new HashSet<>(Arrays.asList(client.getRoles().split(":"))));
+            roles.add(Role.OPERATOR.name());
+            roles.stream().forEach(s -> stringJoiner.add(s));
+            client.setRoles(stringJoiner.toString());
+            clientRepo.save(client);
+        });
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

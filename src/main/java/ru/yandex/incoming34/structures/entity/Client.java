@@ -7,11 +7,10 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
+@Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "table_clients")
 public class Client {
 
@@ -28,4 +27,7 @@ public class Client {
     @Column(name = "client_roles")
     private String roles;
 
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
 }
