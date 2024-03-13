@@ -1,5 +1,8 @@
 package ru.yandex.incoming34.filter;
 
+import ru.yandex.incoming34.exception.AuthException;
+import ru.yandex.incoming34.repo.ClientRepo;
+import ru.yandex.incoming34.service.AuthService;
 import ru.yandex.incoming34.service.JwtProvider;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 import ru.yandex.incoming34.structures.Role;
+import ru.yandex.incoming34.structures.entity.Client;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -17,9 +21,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -30,6 +34,8 @@ public class JwtFilter extends GenericFilterBean {
     private static final String AUTHORIZATION = "Authorization";
 
     private final JwtProvider jwtProvider;
+    private final ClientRepo clientRepo;
+    private final ConcurrentHashMap<String, Optional<Client>> loginClientId = new ConcurrentHashMap();
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc)
@@ -53,12 +59,22 @@ public class JwtFilter extends GenericFilterBean {
     }
 
     public JwtAuthentication generate(Claims claims) {
-        final JwtAuthentication jwtInfoToken = new JwtAuthentication();
-        jwtInfoToken.setRoles(getRoles(claims));
-        jwtInfoToken.setFirstName(claims.get("firstName", String.class));
-        jwtInfoToken.setUsername(claims.getSubject());
-        //jwtInfoToken.setClientId(1L);
-        return jwtInfoToken;
+        Long clientId;
+        loginClientId.computeIfAbsent(claims.getSubject(),
+                c -> clientRepo.findByLogin(claims.getSubject()));
+        if (Objects.isNull(loginClientId.get(claims.getSubject()))){
+            loginClientId.remove(claims.getSubject());
+            throw new AuthException("Ошибка инициализации");
+        } else {
+            clientId = loginClientId.get(claims.getSubject()).get().getId();
+        }
+
+        final JwtAuthentication jwtAuthentication = new JwtAuthentication();
+        jwtAuthentication.setRoles(getRoles(claims));
+        jwtAuthentication.setFirstName(claims.get("firstName", String.class));
+        jwtAuthentication.setUsername(claims.getSubject());
+        jwtAuthentication.setClientId(clientId);
+        return jwtAuthentication;
     }
 
     private Set<Role> getRoles(Claims claims) {
