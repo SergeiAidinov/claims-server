@@ -4,6 +4,9 @@ import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.header.HeaderWriter;
+import org.springframework.security.web.header.writers.CacheControlHeadersWriter;
+import org.springframework.security.web.header.writers.CompositeHeaderWriter;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
@@ -13,13 +16,14 @@ import ru.yandex.incoming34.service.JwtProvider;
 import ru.yandex.incoming34.structures.JwtAuthentication;
 import ru.yandex.incoming34.structures.Role;
 import ru.yandex.incoming34.structures.entity.Client;
-
+import org.springframework.security.web.header.HeaderWriterFilter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -34,15 +38,25 @@ public class JwtFilter extends GenericFilterBean {
     private final JwtProvider jwtProvider;
     private final ClientRepo clientRepo;
     private final ConcurrentHashMap<String, Optional<Client>> loginClientId = new ConcurrentHashMap();
+    private final ConcurrentHashMap<String, LocalDateTime> blackmailed = new ConcurrentHashMap<>();
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc)
-            throws IOException, ServletException {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc) throws IOException, ServletException {
+        /*HeaderWriter headerWriter = new CacheControlHeadersWriter();
+        HeaderWriterFilter headerWriterFilter = new HeaderWriterFilter(List.of(headerWriter));*/
+        HttpServletRequest q = (HttpServletRequest) request;
+        String qq = q.getRequestURI();
         final String token = getTokenFromRequest((HttpServletRequest) request);
+        if (qq.equals("/api/auth/logout")) {
+            System.out.println();
+            blackmailed.put(token, LocalDateTime.now());
+        }
+       //((HeaderWriterFilter.HeaderWriterRequest) request).getRequestURL();
+
         if (token != null && jwtProvider.validateAccessToken(token)) {
             final Claims claims = jwtProvider.getAccessClaims(token);
             final JwtAuthentication jwtInfoToken = generate(claims);
-            jwtInfoToken.setAuthenticated(true);
+            jwtInfoToken.setAuthenticated(!blackmailed.containsKey(token));
             SecurityContextHolder.getContext().setAuthentication(jwtInfoToken);
         }
         fc.doFilter(request, response);
