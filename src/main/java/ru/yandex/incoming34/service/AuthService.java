@@ -5,6 +5,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import ru.yandex.incoming34.repo.ClientRepo;
 import ru.yandex.incoming34.structures.JwtAuthentication;
+import ru.yandex.incoming34.structures.Role;
 import ru.yandex.incoming34.structures.dto.JwtRequest;
 import ru.yandex.incoming34.structures.dto.JwtResponse;
 import ru.yandex.incoming34.structures.entity.Client;
@@ -12,8 +13,8 @@ import ru.yandex.incoming34.exception.AuthException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -71,5 +72,7 @@ public class AuthService {
     public JwtAuthentication getAuthInfo() {
         return (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
     }
+
+
 
 }
