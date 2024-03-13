@@ -3,14 +3,10 @@ package ru.yandex.incoming34.controller;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.yandex.incoming34.service.AuthService;
 import ru.yandex.incoming34.structures.dto.JwtRequest;
 import ru.yandex.incoming34.structures.dto.JwtResponse;
-import ru.yandex.incoming34.structures.dto.RefreshJwtRequest;
 
 @RestController
 @RequestMapping("api/auth")
@@ -26,15 +22,15 @@ public class AuthController {
         return ResponseEntity.ok(token);
     }
 
-    @PostMapping("token")
-    public ResponseEntity<JwtResponse> getNewAccessToken(@RequestBody RefreshJwtRequest request) {
-        final JwtResponse token = authService.getAccessToken(request.getRefreshToken());
+    @GetMapping("token/{request}")
+    public ResponseEntity<JwtResponse> getNewAccessToken(@PathVariable String request) {
+        final JwtResponse token = authService.getAccessToken(request);
         return ResponseEntity.ok(token);
     }
 
-    @PostMapping("refresh")
-    public ResponseEntity<JwtResponse> getNewRefreshToken(@RequestBody RefreshJwtRequest request) {
-        final JwtResponse token = authService.refresh(request.getRefreshToken());
+    @GetMapping("refresh/{request}")
+    public ResponseEntity<JwtResponse> getNewRefreshToken(@PathVariable String request) {
+        final JwtResponse token = authService.refresh(request);
         return ResponseEntity.ok(token);
     }
 

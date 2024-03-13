@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.incoming34.repo.ClientRepo;
 import ru.yandex.incoming34.repo.TicketRepo;
@@ -22,7 +23,7 @@ import java.util.*;
 @RequestMapping("api/operator")
 @AllArgsConstructor
 @Api(description = "Предоставляет эндпойнты, доступные пользователю с ролью \"OPERATOR\"", tags = "Контроллер оператора")
-//@PreAuthorize("hasAuthority('OPERATOR')")
+@PreAuthorize("hasAuthority('OPERATOR')")
 public class OperatorController {
 
     private final AuthService authService;
