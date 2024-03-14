@@ -35,7 +35,7 @@ http://localhost:8080/swagger-ui/index.html
 <a name="auth"></a> 
 <h3>Аутентификация</h3>
 
-Для того чтобы войти в приложение, необходимо вызвать эндпойнт login Контроллера аутентификации и ввести логин и пароль и кликнуть на кнопку “Execute”:<br>
+Для того чтобы войти в приложение, необходимо вызвать эндпойнт api/auth/login Контроллера аутентификации и ввести логин и пароль и кликнуть на кнопку “Execute”:<br>
 <br>
 ![Screenshot](https://github.com/SergeiAidinov/images/blob/main/claims-server_2.png?raw=true)
 <br><br>
