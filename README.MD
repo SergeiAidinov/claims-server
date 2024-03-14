@@ -17,13 +17,13 @@
 Шифрование паролей при собрании в базу данных не предусмотрено, поскольку не требовалось техническим заданием. 
 
 
-![Screenshot](https://github.com/SergeiAidinov/images/blob/main/Screenshot.png?raw=true)
+![Screenshot](https://github.com/SergeiAidinov/images/blob/main/claims-server_1.png)
 
 
 <a name="auth"></a> 
 <h3>Аутентификация</h3>
 
-Для того, чтобы войти в приложение, необходимо вызвать эндпойнт login Контроллера аутентификации и ввести логин и пароль, после чего на экране отобразятся access token и refresh token, как это показано на рисунке ниже:
+Для того, чтобы войти в приложение, необходимо вызвать эндпойнт login Контроллера аутентификации и ввести логин и пароль, после чего на экране отобразятся access token и refresh token, как это показано на рисунке ниже:<br>
 ![Screenshot](https://github.com/SergeiAidinov/images/blob/main/claims-server_2.png?raw=true)
 Затем необходимо открыть окно аутентификации Swagger, ввести в нем слово “Bearer” через пробел вставить access token без кавычек, после чего кликнуть на кнопку “Auntheficate”, как это показано на рисунке ниже: 
 
