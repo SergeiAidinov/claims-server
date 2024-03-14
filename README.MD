@@ -20,8 +20,8 @@ http://localhost:8080/swagger-ui/index.html
 | Логин  |Пароль | Роли                 |
 | :---:  | :---: |          :---:       |
 | winnie | 1234  | USER, ADMIN, OPERATOR|
-| eyeore | asdf  | USER:ADMIN           |    
-| owl    | zxcv  | USER:OPERATOR        |   
+| eyeore | asdf  | USER, ADMIN           |    
+| owl    | zxcv  | USER, OPERATOR        |   
 |piglet  | qwer  | USER                 |   
 
 
