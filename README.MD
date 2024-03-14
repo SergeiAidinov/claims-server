@@ -22,19 +22,10 @@
 
 <a name="auth"></a> 
 <h3>Аутентификация</h3>
-For deployment execute the next commands: 
 
-- clone the repository: git clone https://github.com/SergeiAidinov/sdk_kameleoon.git
+Для того, чтобы войти в приложение, необходимо вызвать эндпойнт login Контроллера аутентификации и ввести логин и пароль, после чего на экране отобразятся access token и refresh token, как это показано на рисунке ниже:
+Затем необходимо открыть окно аутентификации Swagger, ввести в нем слово “Bearer” через пробел вставить access token без кавычек, после чего кликнуть на кнопку “Auntheficate”, как это показано на рисунке ниже: 
 
-- change the current directory: cd sdk_kameleoon/
-
-- create a jar file: mvn package
-
-- change the current directory: cd target
-
-- start application: java -jar sdk_kameleoon-0.0.1-SNAPSHOT.jar 
-
-- stop application at Linux operating system: pkill -f sdk_kameleoon-0.0.1-SNAPSHOT.jar
 
 ## Properties
 
