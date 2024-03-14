@@ -34,15 +34,15 @@
 Для того чтобы войти в приложение, необходимо вызвать эндпойнт login Контроллера аутентификации и ввести логин и пароль и кликнуть на кнопку “Execute”:<br>
 <br>
 ![Screenshot](https://github.com/SergeiAidinov/images/blob/main/claims-server_2.png?raw=true)
-<br>
+<br><br>
 После этого на экране отобразятся access token и refresh token, как это показано на рисунке ниже:<br>
-<br>
+<br><br>
 ![Screenshot](https://github.com/SergeiAidinov/images/blob/main/claims-server_3.png?raw=true)
-<br>
+<br><br>
 Затем необходимо открыть окно аутентификации Swagger, ввести в нем слово “Bearer” через пробел вставить access token без кавычек, после чего кликнуть на кнопку “Auntheficate”, как это показано на рисунке ниже: <br>
-<br>
+<br><br>
 ![Screenshot](https://github.com/SergeiAidinov/images/blob/main/claims-server_4.png?raw=true)
-<br>
+<br><br>
 
 
 ## Properties
