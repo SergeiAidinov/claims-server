@@ -17,6 +17,7 @@ import ru.yandex.incoming34.structures.JwtAuthentication;
 import ru.yandex.incoming34.structures.Role;
 import ru.yandex.incoming34.structures.entity.Client;
 import org.springframework.security.web.header.HeaderWriterFilter;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -47,11 +48,12 @@ public class JwtFilter extends GenericFilterBean {
         HttpServletRequest q = (HttpServletRequest) request;
         String qq = q.getRequestURI();
         final String token = getTokenFromRequest((HttpServletRequest) request);
-        if (qq.equals("/api/auth/logout")) {
-            System.out.println();
+        if (qq.equals("/api/auth/logout"))
             blackmailed.put(token, LocalDateTime.now());
-        }
-       //((HeaderWriterFilter.HeaderWriterRequest) request).getRequestURL();
+        else if (qq.equals("/api/auth/login"))
+            blackmailed.remove(token);
+
+        //((HeaderWriterFilter.HeaderWriterRequest) request).getRequestURL();
 
         if (token != null && jwtProvider.validateAccessToken(token)) {
             final Claims claims = jwtProvider.getAccessClaims(token);
@@ -74,7 +76,7 @@ public class JwtFilter extends GenericFilterBean {
         Long clientId;
         loginClientId.computeIfAbsent(claims.getSubject(),
                 c -> clientRepo.findByLogin(claims.getSubject()));
-        if (Objects.isNull(loginClientId.get(claims.getSubject()))){
+        if (Objects.isNull(loginClientId.get(claims.getSubject()))) {
             loginClientId.remove(claims.getSubject());
             throw new AuthException("Ошибка инициализации");
         } else {
