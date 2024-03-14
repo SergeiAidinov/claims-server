@@ -17,7 +17,7 @@
 
 | Логин |Пароль | Роли |
 | :---:         |     :---:      |          :---: |
-| git status   | git status     | git status    |
+| git status   | ss     | USER, ADMIN, OPERATOR    |
 | git diff     | git diff       | git diff      |    
 | git diff     | git diff       | git diff      |   
 
