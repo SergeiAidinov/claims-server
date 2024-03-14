@@ -3,16 +3,15 @@ package ru.yandex.incoming34.service;
 import io.jsonwebtoken.Claims;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import ru.yandex.incoming34.exception.AuthException;
 import ru.yandex.incoming34.repo.ClientRepo;
 import ru.yandex.incoming34.structures.JwtAuthentication;
 import ru.yandex.incoming34.structures.dto.JwtRequest;
 import ru.yandex.incoming34.structures.dto.JwtResponse;
 import ru.yandex.incoming34.structures.entity.Client;
-import ru.yandex.incoming34.exception.AuthException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -20,8 +19,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AuthService {
 
     public static final ConcurrentHashMap<String, String> tokenStorage = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<LocalDateTime, String> blackMailedTokens = new ConcurrentHashMap<>();
-    public static final ConcurrentHashMap<String, LocalDateTime> loggedClients = new ConcurrentHashMap<>();
     private final JwtProvider jwtProvider;
     private final ClientRepo clientRepo;
 
@@ -47,7 +44,7 @@ public class AuthService {
                 final Client client = clientRepo.findByLogin(login)
                         .orElseThrow(() -> new AuthException("Пользователь не найден"));
                 final String accessToken = jwtProvider.generateAccessToken(client);
-                return new JwtResponse(12341234L, accessToken, null);
+                return new JwtResponse(client.getId(), accessToken, null);
             }
         }
         throw new AuthException("Не удалось выполнить аутентификацию");
@@ -64,7 +61,7 @@ public class AuthService {
                 final String accessToken = jwtProvider.generateAccessToken(client);
                 final String newRefreshToken = jwtProvider.generateRefreshToken(client);
                 tokenStorage.put(client.getLogin(), newRefreshToken);
-                return new JwtResponse(4674890345L, accessToken, newRefreshToken);
+                return new JwtResponse(client.getId(), accessToken, newRefreshToken);
             }
         }
         throw new AuthException("Невалидный JWT токен");
@@ -74,9 +71,4 @@ public class AuthService {
         return (JwtAuthentication) SecurityContextHolder.getContext().getAuthentication();
     }
 
-    public void logout(String log) {
-        getAuthInfo();
-        System.out.println();
-        //blackMailedTokens.put();
-    }
 }

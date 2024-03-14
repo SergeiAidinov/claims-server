@@ -26,7 +26,6 @@ import java.util.*;
 @PreAuthorize("hasAuthority('OPERATOR')")
 public class OperatorController {
 
-    private final AuthService authService;
     private final TicketRepo ticketRepo;
     private final Integer itemsPerPage;
     private final ClientRepo clientRepo;

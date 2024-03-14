@@ -1,10 +1,11 @@
 package ru.yandex.incoming34.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.incoming34.service.AuthService;
 import ru.yandex.incoming34.structures.dto.JwtRequest;
@@ -19,27 +20,32 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("login")
-    public ResponseEntity<JwtResponse> login(@RequestBody JwtRequest authRequest) {
+    @ApiOperation(value = "Позволяет получить accessToken и refreshToken по логину и паролю")
+    public ResponseEntity<JwtResponse> login(
+            @Parameter(description = "Логин и п пароль", required = true) @RequestBody JwtRequest authRequest
+    ) {
         final JwtResponse token = authService.login(authRequest);
         return ResponseEntity.ok(token);
     }
 
-    @GetMapping("token/{request}")
+    @GetMapping("new_access_token/{request}")
+    @ApiOperation(value = "Позволяет получить accessToken по refreshToken")
     public ResponseEntity<JwtResponse> getNewAccessToken(@PathVariable String request) {
         final JwtResponse token = authService.getAccessToken(request);
         return ResponseEntity.ok(token);
     }
 
-    @GetMapping("refresh/{request}")
+    @GetMapping("new_tokens{request}")
+    @ApiOperation(value = "Позволяет получить новую пару  accessToken и refreshToken по имеющемуся refreshToken")
     public ResponseEntity<JwtResponse> getNewRefreshToken(@PathVariable String request) {
         final JwtResponse token = authService.refresh(request);
         return ResponseEntity.ok(token);
     }
 
     @GetMapping("logout")
+    @ApiOperation(value = "Позволяет выйти из системы. Для повторного входа нужно получть новый accessToken")
     public ResponseEntity logout() {
-        String log = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        authService.logout(log);
+        //Разлогинивание осуществляется в методе doFilter класса JwtFilter
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

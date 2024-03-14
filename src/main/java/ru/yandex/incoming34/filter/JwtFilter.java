@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -42,8 +41,6 @@ public class JwtFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc) throws IOException, ServletException {
-        /*HeaderWriter headerWriter = new CacheControlHeadersWriter();
-        HeaderWriterFilter headerWriterFilter = new HeaderWriterFilter(List.of(headerWriter));*/
         HttpServletRequest q = (HttpServletRequest) request;
         String qq = q.getRequestURI();
         final String token = getTokenFromRequest((HttpServletRequest) request);
@@ -52,8 +49,6 @@ public class JwtFilter extends GenericFilterBean {
         else if (qq.equals("/api/auth/login") && Objects.nonNull(token)) {
             stoppedToken.remove(token);
         }
-
-        //((HeaderWriterFilter.HeaderWriterRequest) request).getRequestURL();
 
         if (token != null && jwtProvider.validateAccessToken(token)) {
             final Claims claims = jwtProvider.getAccessClaims(token);

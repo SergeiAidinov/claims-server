@@ -31,7 +31,6 @@ public class UserController {
     private final TicketRepo ticketRepo;
     private final Integer itemsPerPage;
 
-    //@PreAuthorize("hasAuthority('USER')")
     @PostMapping("/newDraft")
     @ApiOperation(value = "Создать черновик заявки")
     public ResponseEntity createDraft(@Parameter(description = "Текст черновика", example = "Новый черновик") String ticketDraftText) {
@@ -42,17 +41,14 @@ public class UserController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasAuthority('USER')")
     @PutMapping("/newTicket")
     @ApiOperation(value = "Подать заявку")
     public ResponseEntity fileTicket(Long ticketId) {
         System.out.println();
-        final JwtAuthentication authInfo = authService.getAuthInfo();
         ticketRepo.fileTicket(ticketId);
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    //@PreAuthorize("hasAuthority('USER')")
     @GetMapping("/allTickets")
     @ApiOperation(value = "Посмотреть поданные заявки")
     public List<Ticket> viewTickets(Integer page, SortingOrder sortingOrder){
@@ -64,7 +60,6 @@ public class UserController {
         };
     }
 
-    //@PreAuthorize("hasAuthority('USER')")
     @GetMapping("/draft")
     @ApiOperation(value = "Получить черновик заявки")
     public Optional<Ticket> getDraftById(Long ticketId){
@@ -72,7 +67,6 @@ public class UserController {
         return ticketRepo.findByTicketIdAndTicketStatusAndClientId(ticketId, TicketStatus.DRAFT, authInfo.getClientId());
     }
 
-    //@PreAuthorize("hasAuthority('USER')")
     @PostMapping("/editTicket")
     @ApiOperation(value = "Редактировать черновик заявки")
     public ResponseEntity editDraft(String newText, Long ticketId) {
