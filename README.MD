@@ -4,9 +4,9 @@
 ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
 ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
 
-# Contents
- - [Description](#description) 
- - [Deployment](#deployment) 
+# Содержание
+ - [Общее описание](#description) 
+ - Аутентификация](#auth) 
  - [Properties](#properties)
 
 ## Description
@@ -15,7 +15,7 @@ A user interacts with application via Swagger, which opens at http://localhost:8
 ![Screenshot](https://github.com/SergeiAidinov/images/blob/main/Screenshot.png?raw=true)
 
 
-## Deployment
+## auth
 For deployment execute the next commands: 
 
 - clone the repository: git clone https://github.com/SergeiAidinov/sdk_kameleoon.git
