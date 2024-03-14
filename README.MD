@@ -20,7 +20,8 @@
 ![Screenshot](https://github.com/SergeiAidinov/images/blob/main/Screenshot.png?raw=true)
 
 
-## Auth
+<a name="auth"></a> 
+<h3>Аутентификация</h3>
 For deployment execute the next commands: 
 
 - clone the repository: git clone https://github.com/SergeiAidinov/sdk_kameleoon.git
