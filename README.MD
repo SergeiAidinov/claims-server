@@ -10,7 +10,11 @@
  - [Properties](#properties)
 
 ## Description
-A user interacts with application via Swagger, which opens at http://localhost:8080/swagger-ui/index.html
+Взаимодействие пользователя с приложением осуществляется через Swagger, который открывается по адресу: http://localhost:8080/swagger-ui/index.html
+При первом запуске приложения с помощью Liquibase создается база данных, в которой помимо таблиц создаются функции для заполнения ее тестовыми данными. 
+Также создаются три клиента – героя Алана Милна со следующими паролями и ролями. 
+Шифрование паролей при собрании в базу данных не предусмотрено, поскольку не требовалось техническим заданием. 
+
 
 ![Screenshot](https://github.com/SergeiAidinov/images/blob/main/Screenshot.png?raw=true)
 
