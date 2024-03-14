@@ -18,7 +18,8 @@
 | Логин |Пароль | Роли |
 | :---:         |     :---:      |          :---: |
 | git status   | git status     | git status    |
-| git diff     | git diff       | git diff      |                                                                                                      
+| git diff     | git diff       | git diff      |    
+| git diff     | git diff       | git diff      |   
 
 Шифрование паролей при собрании в базу данных не предусмотрено, поскольку не требовалось техническим заданием. 
 
