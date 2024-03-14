@@ -48,17 +48,8 @@
 ## Properties
 
 | Property Name                     | Description                                                                                                                                                                                                                           |
-|-----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| app.apiKey                        | API KEY for using weather API                                                                                                                                                                                                         |
-| app.cache.retention.timeInMinutes | Time (in minutes) between cache updates                                                                                                                                                                                               |
-| app.cache.size                    | Max quantity of the cities, whose weather reports kept in cache                                                                                                                                                                       |
-| app.cache.mode                    | Mode of cache update: <b>on_demand</b> (when user requests weather report) or <b>polling</b> (in equal periods, defined with property 'app.cache.retention.timeInMinutes'                                                             |
-| app.language                      | language of weather reports:  af, al, ar, az, bg, ca, cz, da, de, el, en, eu, fa, fi, fr, gl, he, hi, hr, hu, id, it, ja, kr, la, lt, mk, no, nl, pl, pt, pt_br, ro, ru, sv, sk, sl, sp, es, sr, th, tr, ua, uk, vi, zh_cn, zh_tw, zu |
-| app.units                         | System of units of measurement: <br/>standard, metric, imperial                                                                                                                                                                       |
+|-----------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| app.items-per-page                        | API KEY for using weather API                                                                                                                                                                                                         |
+| app.token-retention-in-minutes | Time (in minutes) between cache updates                                                                                                                                                                                               |
+| app.stopped-token-clean-interval-in-milliseconds                    | Max quantity of the cities, whose weather reports kept in cache                                                                                                                                                                       |
 
-
-
-
-
-
-Приложение открывается по адресу: http://localhost:8080/swagger-ui/index.html
