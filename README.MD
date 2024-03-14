@@ -6,7 +6,7 @@
 
 # Содержание
  - [Общее описание](#description) 
- - Аутентификация](#auth) 
+ - [Аутентификация](#auth) 
  - [Properties](#properties)
 
 ## Description
